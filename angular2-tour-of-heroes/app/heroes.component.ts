@@ -41,7 +41,7 @@ import { HeroService } from './hero.service'
 
 
 //export class AppComponent implements OnInit   { 测试来看不需要实现可能默认进行了实现 
-	export class HeroesComponent {
+export class HeroesComponent {
 	title = 'tour of heros ';
 	/*
 		构造对象
@@ -50,28 +50,54 @@ import { HeroService } from './hero.service'
 	  id: 1,
 	  name: 'Windstorm'
 	};*/
-	selectedHero: Hero;
+	selectedHero: Hero
 	//heroes = HEROES;
-	heroes: Hero[]; 
-	constructor(
+	heroes: Hero[] 
+  addingHero = false
+	error: any
+  constructor(
     private heroService: HeroService,
     private router: Router
   ) {};
 	getHeroes() {
-	    this.heroService.getHeroes().then(heroes => this.heroes = heroes);
-	  }
- 
-	onSelect(hero: Hero) { 
-		this.selectedHero = hero;
-	}
-	//初始化调用
-	ngOnInit() {
-		this.getHeroes();
-	}
+    this.heroService.getHeroes()
+    .then(heroes => this.heroes = heroes)
+    .catch(error => this.error = error);
+  }
+  addHero() {
+    this.addingHero = true
+    this.selectedHero = null
+  }
 
+  close(savedHero: Hero) {
+    this.addingHero = false
+    if(savedHero) {
+      this.getHeroes()
+    }
+  }
+
+  deleteHero(hero: Hero, event: any) {
+    event.stopPropagation();
+    this.heroService
+        .delete(hero)
+        .then(res => {
+          this.heroes = this.heroes.filter(h => h !== hero);
+          if (this.selectedHero === hero) { this.selectedHero = null; }
+        })
+        .catch(error => this.error = error);
+  }
+ 
+	ngOnInit() {
+    this.getHeroes();
+  }
+  onSelect(hero: Hero) {
+    this.selectedHero = hero;
+    this.addingHero = false;
+  }
   gotoDetail() {
     this.router.navigate(['/detail', this.selectedHero.id]);
   }
+
 }
 
 

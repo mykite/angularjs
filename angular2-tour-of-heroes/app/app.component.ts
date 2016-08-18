@@ -1,5 +1,7 @@
 import { Component  } from '@angular/core'
 
+import {} from './rxjs-extendsions'
+
 @Component({
 	selector: 'my-app',
 	template: `
@@ -9,9 +11,10 @@ import { Component  } from '@angular/core'
     	  <a routerLink="/heroes" routerLinkActive="active">Heroes</a>
 		</nav>
   <router-outlet></router-outlet>
-	`
+	`,
+	styleUrls: ['app/app.component.css']
 })
 /*<my-heroes></my-heroes>*/
 export class AppComponent {
 	title = 'Tour of Heroes'
-}
+} 

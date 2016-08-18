@@ -12,7 +12,7 @@ const appRouters: Routes = [
 	{
 		path: 'dashboard',
 		component: DashboardComponent
-	}
+	},
 	{
 		path: '',
 		redirectTo: '/dashboard',
